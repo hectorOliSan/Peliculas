@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Peliculas</string>
+    <string name="btn">Obtener Películas</string>
+    <string name="txt">Películas</string>
+
+    <string name="api">API KEY</string>
+    <string name="guardar">Guardar</string>
+
+    <string name="PGV">IES EL RINCÓN - 2021 PGV</string>
+    <string name="nombre">Héctor Olivares Sánchez</string>
+</resources>
