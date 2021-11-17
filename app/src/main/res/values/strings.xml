@@ -4,6 +4,8 @@
     <string name="txt">Películas</string>
 
     <string name="api">API KEY</string>
+    <string name="pelis">EndPoint Peliculas</string>
+    <string name="creditos">EndPoint Creditos</string>
     <string name="guardar">Guardar</string>
 
     <string name="PGV">IES EL RINCÓN - 2021 PGV</string>

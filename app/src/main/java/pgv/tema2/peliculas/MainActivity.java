@@ -58,21 +58,6 @@ public class MainActivity extends AppCompatActivity {
         /*btnObtener.setOnClickListener( e -> {
             txtPeliculas.append(" - Cargando Películas");
         });*/
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getApplicationContext(), DetalleActivity.class);
-                intent.putExtra("id", String.valueOf (listaPeliculas.get(i).getId() ) );
-                intent.putExtra("titulo", listaPeliculas.get(i).getTitle() );
-                intent.putExtra("imagen", listaPeliculas.get(i).getPoster_path() );
-                intent.putExtra("sinopsis", listaPeliculas.get(i).getOverview() );
-
-                Log.d("test", "Pasando id " + listaPeliculas.get(i).getId() );
-
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -189,6 +174,21 @@ public class MainActivity extends AppCompatActivity {
 
             AdaptadorPelicula adaptador = new AdaptadorPelicula(getApplicationContext(), listaPeliculas);
             listView.setAdapter(adaptador);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView adapterView, View view, int i, long l) {
+                    Intent intent = new Intent(getApplicationContext(), DetalleActivity.class);
+                    intent.putExtra("id", String.valueOf (listaPeliculas.get(i).getId() ) );
+                    intent.putExtra("titulo", listaPeliculas.get(i).getTitle() );
+                    intent.putExtra("imagen", listaPeliculas.get(i).getPoster_path() );
+                    intent.putExtra("sinopsis", listaPeliculas.get(i).getOverview() );
+
+                    Log.d("test", "Pasando id " + listaPeliculas.get(i).getId() );
+
+                    startActivity(intent);
+                }
+            });
         }
     }
 

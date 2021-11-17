@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".DetalleActivity">
 
+    <ImageView android:id="@+id/ivPortada"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:src="@mipmap/ic_user_round"
+        android:padding="20dp"/>
+
 </LinearLayout>
