@@ -16,12 +16,12 @@
     <EditText android:id="@+id/epPeliculas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/pelis"/>
+        android:hint="@string/epPelis"/>
 
     <EditText android:id="@+id/epCreditos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/creditos"/>
+        android:hint="@string/epCreditos"/>
 
     <Button android:id="@+id/btnGuardar"
         android:layout_width="wrap_content"

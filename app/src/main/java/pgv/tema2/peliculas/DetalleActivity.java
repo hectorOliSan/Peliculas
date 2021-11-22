@@ -6,12 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 public class DetalleActivity extends AppCompatActivity {
+    private Button btnCreditos;
+    private ImageView iv;
+    private TextView tvTitulo, tvSinopsis;
     private String titulo, imagen, sinopsis, id;
 
     public static final String MOVIE_BASE_URL="https://image.tmdb.org/t/p/w185";
@@ -23,7 +27,11 @@ public class DetalleActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ImageView iv = (ImageView) findViewById(R.id.ivPortada);
+        btnCreditos = (Button) findViewById(R.id.btnCreditos);
+        iv = (ImageView) findViewById(R.id.ivPortada);
+        tvTitulo = (TextView) findViewById(R.id.tvTitulo);
+        tvSinopsis = (TextView) findViewById(R.id.tvSinopsis);
+
 
         // Leer el parametro de la pelicula.
         Intent intent = getIntent();
@@ -32,13 +40,21 @@ public class DetalleActivity extends AppCompatActivity {
         this.sinopsis =  intent.getStringExtra("sinopsis");
         this.id = intent.getStringExtra("id");
 
-        Log.d("test", "Creditos: Leyendo id:" + id);
-        Log.d("test", "Creditos: Leyendo titulo:" + titulo);
+        //Log.d("test", "Creditos: Leyendo id:" + id);
+        //Log.d("test", "Creditos: Leyendo titulo:" + titulo);
 
         setTitle(titulo);
 
         Picasso.get().load(MOVIE_BASE_URL + imagen).into(iv);
         iv.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        tvTitulo.setText(titulo);
+        tvSinopsis.setText(sinopsis);
+
+        btnCreditos.setOnClickListener( e -> {
+            Intent i = new Intent(getApplicationContext(), CreditosActivity.class);
+            startActivity(i);
+        });
     }
 
     @Override
