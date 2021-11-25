@@ -2,9 +2,44 @@ package pgv.tema2.peliculas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 
 public class CreditosActivity extends AppCompatActivity {
+    private ArrayList<Actor> listaActores = new ArrayList<Actor>();
+    private ListView listView;
+    private String id;
+
+    public static final String MOVIE_BASE_URL="https://image.tmdb.org/t/p/w185";
+    public static final String endPointActores1 = "http://api.themoviedb.org/3/movie/";
+    public static final String endPointActores2 = "/casts?api_key=88065b90732f187d12b27e745e91bdd9";
+    public static final String EndPointActores = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -13,11 +48,154 @@ public class CreditosActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        listView = (ListView) findViewById(R.id.listActores);
+
+        Intent intent = getIntent();
+        this.id = intent.getStringExtra("id");
+
+        new ObtenerActoresAsync().execute(endPointActores1 + id + endPointActores2);
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return false;
+    }
+
+    class ObtenerActoresAsync extends AsyncTask<String, Integer, String> {
+        ProgressDialog progreso;
+
+        protected void onPreExecute () {
+            super.onPreExecute();
+
+            // Mostrar progress bar.
+            progreso = new ProgressDialog(CreditosActivity.this);
+            progreso.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progreso.setMessage("Obteniendo actores ...");
+            progreso.setCancelable(false);
+            progreso.setMax(100);
+            progreso.setProgress(0);
+            progreso.show();
+        }
+
+        protected String doInBackground(String... params) {
+            StringBuilder result = new StringBuilder();
+
+            try {
+                URL urlObj = new URL(params[0]);
+                HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
+                conn.setRequestMethod("GET");
+                conn.connect();
+
+                InputStream in = new BufferedInputStream(conn.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                String line;
+
+                while ((line = reader.readLine()) != null) result.append(line);
+
+                Log.d("test", "respuesta: " + result.toString());
+
+            } catch (Exception e) {
+                Log.d("test", "error2: " + e.toString());
+            }
+
+            return result.toString();
+        }
+
+        protected void onProgressUpdate(Integer...a){
+            super.onProgressUpdate(a);
+        }
+
+        protected void onPostExecute(String result) {
+            JSONObject resp = null;
+            JSONArray actores = null;
+
+            try {
+                resp = new JSONObject(result);
+                actores = resp.getJSONArray("cast");
+
+                for (int i = 0; i<actores.length();i++) {
+                    JSONObject actor = actores.getJSONObject(i);
+
+                    //txtPeliculas.append(pelicula.getString("original_title") + "\n");
+
+                    listaActores.add(new Actor(
+                            actor.getInt("id"),
+                            actor.getString("name"),
+                            actor.getString("character"),
+                            actor.getString("profile_path") ));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            progreso.dismiss();
+
+            AdaptadorActores adaptador = new AdaptadorActores(getApplicationContext(), listaActores);
+            listView.setAdapter(adaptador);
+
+            /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView adapterView, View view, int i, long l) {
+                    Intent intent = new Intent(getApplicationContext(), DetalleActivity.class);
+                    intent.putExtra("id", String.valueOf (listaPeliculas.get(i).getId() ) );
+                    intent.putExtra("titulo", listaPeliculas.get(i).getTitle() );
+                    intent.putExtra("imagen", listaPeliculas.get(i).getPoster_path() );
+                    intent.putExtra("sinopsis", listaPeliculas.get(i).getOverview() );
+
+                    Log.d("test", "Pasando id " + listaPeliculas.get(i).getId() );
+
+                    startActivity(intent);
+                }
+            });*/
+        }
+    }
+
+    class AdaptadorActores extends BaseAdapter {
+        Context context;
+        ArrayList<Actor> arrayList;
+
+        public AdaptadorActores(Context context, ArrayList<Actor> arrayList) {
+            this.context = context;
+            this.arrayList = arrayList;
+        }
+
+        public int getCount() {
+            return arrayList.size();
+        }
+
+        public Actor getItem(int position) {return arrayList.get(position);}
+
+        public long getItemId(int i) {
+            return i;
+        }
+
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            if (convertView ==  null) {
+                convertView = LayoutInflater.from(context).inflate(R.layout.lista_actores, parent, false);
+            }
+
+            // Nombre
+            TextView fecha = (TextView) convertView.findViewById(R.id.tvActor);
+            fecha.setText(arrayList.get(position).getName());
+
+            // Personaje
+            TextView name = (TextView) convertView.findViewById(R.id.tvPersonaje);
+            name.setText(arrayList.get(position).getCharacter());
+
+            // Imagen.
+            ImageView imagen = (ImageView) convertView.findViewById(R.id.ivActor);
+            Picasso.get().load(MOVIE_BASE_URL + arrayList.get(position).getProfile_path()).into(imagen);
+            imagen.setScaleType(ImageView.ScaleType.FIT_XY);
+
+            return convertView;
+        }
     }
 }

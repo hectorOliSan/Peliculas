@@ -35,6 +35,7 @@ public class DetalleActivity extends AppCompatActivity {
 
         // Leer el parametro de la pelicula.
         Intent intent = getIntent();
+        this.id = intent.getStringExtra("id");
         this.titulo =  intent.getStringExtra("titulo");
         this.imagen =  intent.getStringExtra("imagen");
         this.sinopsis =  intent.getStringExtra("sinopsis");
@@ -53,6 +54,7 @@ public class DetalleActivity extends AppCompatActivity {
 
         btnCreditos.setOnClickListener( e -> {
             Intent i = new Intent(getApplicationContext(), CreditosActivity.class);
+            i.putExtra("id", id);
             startActivity(i);
         });
     }

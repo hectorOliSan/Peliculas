@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dip" >
+
+    <!--  ListRow Left sied Thumbnail image -->
+    <LinearLayout android:id="@+id/llActor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="5dip">
+
+        <ImageView
+            android:id="@+id/ivActor"
+            android:layout_width="129dp"
+            android:layout_height="88dp" />
+    </LinearLayout>
+
+    <!-- Title Of Song-->
+    <TextView
+        android:id="@+id/tvActor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/llActor"
+        android:layout_toEndOf="@+id/llActor"
+        android:text="@string/nActor"
+        android:textColor="@color/black"
+        android:typeface="sans"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <!-- Artist Name -->
+    <TextView
+        android:id="@+id/tvPersonaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvActor"
+        android:layout_marginTop="1dip"
+        android:layout_toEndOf="@+id/llActor"
+        android:text="@string/nPersonaje"
+        android:textColor="@color/teal_700"
+        android:textSize="14sp" />
+</RelativeLayout>
