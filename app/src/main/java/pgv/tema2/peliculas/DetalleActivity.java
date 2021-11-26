@@ -55,6 +55,7 @@ public class DetalleActivity extends AppCompatActivity {
         btnCreditos.setOnClickListener( e -> {
             Intent i = new Intent(getApplicationContext(), CreditosActivity.class);
             i.putExtra("id", id);
+            i.putExtra("titulo", titulo);
             startActivity(i);
         });
     }

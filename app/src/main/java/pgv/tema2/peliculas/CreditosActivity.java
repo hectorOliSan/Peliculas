@@ -34,12 +34,11 @@ import java.util.ArrayList;
 public class CreditosActivity extends AppCompatActivity {
     private ArrayList<Actor> listaActores = new ArrayList<Actor>();
     private ListView listView;
-    private String id;
+    private String id, titulo;
 
     public static final String MOVIE_BASE_URL="https://image.tmdb.org/t/p/w185";
     public static final String endPointActores1 = "http://api.themoviedb.org/3/movie/";
     public static final String endPointActores2 = "/casts?api_key=88065b90732f187d12b27e745e91bdd9";
-    public static final String EndPointActores = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +51,9 @@ public class CreditosActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         this.id = intent.getStringExtra("id");
+        this.titulo = intent.getStringExtra("titulo");
+
+        setTitle(titulo);
 
         new ObtenerActoresAsync().execute(endPointActores1 + id + endPointActores2);
     }
@@ -117,8 +119,6 @@ public class CreditosActivity extends AppCompatActivity {
                 for (int i = 0; i<actores.length();i++) {
                     JSONObject actor = actores.getJSONObject(i);
 
-                    //txtPeliculas.append(pelicula.getString("original_title") + "\n");
-
                     listaActores.add(new Actor(
                             actor.getInt("id"),
                             actor.getString("name"),
@@ -140,21 +140,6 @@ public class CreditosActivity extends AppCompatActivity {
 
             AdaptadorActores adaptador = new AdaptadorActores(getApplicationContext(), listaActores);
             listView.setAdapter(adaptador);
-
-            /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView adapterView, View view, int i, long l) {
-                    Intent intent = new Intent(getApplicationContext(), DetalleActivity.class);
-                    intent.putExtra("id", String.valueOf (listaPeliculas.get(i).getId() ) );
-                    intent.putExtra("titulo", listaPeliculas.get(i).getTitle() );
-                    intent.putExtra("imagen", listaPeliculas.get(i).getPoster_path() );
-                    intent.putExtra("sinopsis", listaPeliculas.get(i).getOverview() );
-
-                    Log.d("test", "Pasando id " + listaPeliculas.get(i).getId() );
-
-                    startActivity(intent);
-                }
-            });*/
         }
     }
 
