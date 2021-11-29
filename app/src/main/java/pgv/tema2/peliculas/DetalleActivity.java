@@ -47,7 +47,7 @@ public class DetalleActivity extends AppCompatActivity {
         setTitle(titulo);
 
         Picasso.get().load(MOVIE_BASE_URL + imagen).into(iv);
-        iv.setScaleType(ImageView.ScaleType.FIT_XY);
+        //iv.setScaleType(ImageView.ScaleType.FIT_XY);
 
         tvTitulo.setText(titulo);
         tvSinopsis.setText(sinopsis);

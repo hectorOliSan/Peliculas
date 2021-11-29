@@ -178,7 +178,7 @@ public class CreditosActivity extends AppCompatActivity {
             // Imagen.
             ImageView imagen = (ImageView) convertView.findViewById(R.id.ivActor);
             Picasso.get().load(MOVIE_BASE_URL + arrayList.get(position).getProfile_path()).into(imagen);
-            imagen.setScaleType(ImageView.ScaleType.FIT_XY);
+            //imagen.setScaleType(ImageView.ScaleType.FIT_XY);
 
             return convertView;
         }

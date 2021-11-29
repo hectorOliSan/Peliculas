@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/ivActor"
             android:layout_width="129dp"
-            android:layout_height="88dp" />
+            android:layout_height="182dp" />
     </LinearLayout>
 
     <!-- Title Of Song-->

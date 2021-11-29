@@ -2,6 +2,7 @@ package pgv.tema2.peliculas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -228,7 +229,11 @@ public class MainActivity extends AppCompatActivity {
 
             // Titulo
             TextView descripcion = (TextView) convertView.findViewById(R.id.tvDescripcion);
-            descripcion.setText(arrayList.get(position).getOverview().substring(0,100) + " ... ");
+            if(arrayList.get(position).getOverview().length() < 100) {
+                descripcion.setText(arrayList.get(position).getOverview());
+            } else {
+                descripcion.setText(arrayList.get(position).getOverview().substring(0,100) + " ... ");
+            }
 
             // Imagen.
             ImageView imagen = (ImageView) convertView.findViewById(R.id.list_image);
